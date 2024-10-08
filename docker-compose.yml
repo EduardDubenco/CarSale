@@ -1,34 +1,50 @@
-version: '3.8'
+version: "3.9"
 
 services:
   app:
-    build: .
+    image: node-app:v1.0.0
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - '3000:3000'
-    depends_on:
-      - db
-    environment:
-      - DATABASE_HOST=db
-      - DATABASE_PORT=5432
-      - DATABASE_USER=postgres
-      - DATABASE_PASSWORD=postgres
-      - DATABASE_NAME=car_sale
-      - JWT_SECRET=your_jwt_secret
-    volumes:
-      - .:/app
-    command: npm run start:dev
+      - "3333:3000"
+    networks:
+      - my-node-app
 
   db:
-    image: postgres:13
-    restart: always
+    image: postgres
+    hostname: postgres
+    container_name: db
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: car_sale
+      POSTGRES_PASSWORD: "test_pass"
+      POSTGRES_USER: "test_user"
+      POSTGRES_DB: "test_db"
     ports:
-      - '5432:5432'
+      - "5432:5432"
+    networks:
+      - my-node-app
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - .db-data:/var/lib/postgresql/data
+
+  pg-admin:
+    image: dpage/pgadmin4
+    container_name: pg_admin
+    ports:
+      - "8888:80"
+    networks:
+      - my-node-app
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@domain.com"
+      PGADMIN_DEFAULT_PASSWORD: "1234"
+      PGADMIN_DEFAULT_PORT: "80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
 
 volumes:
-  postgres-data:
+  db-data:
+  pgadmin-data:
+
+networks:
+  my-node-app:
+    driver: bridge

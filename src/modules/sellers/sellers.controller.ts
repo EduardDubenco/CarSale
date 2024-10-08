@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { SellersService } from './sellers.service';
 import { Seller } from './seller.entity';
-// import { CreateSellerDto } from './dto/create-seller.dto';
+import { CreateSellerDto } from './dto/create-seller.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('sellers')
@@ -23,12 +23,12 @@ export class SellersController {
         return this.sellersService.findOne(id);
     }
 
-    // @Post()
-    // @ApiOperation({ summary: 'Creați un nou vânzător' })
-    // @ApiResponse({ status: 201, description: 'Vânzător creat', type: Seller })
-    // create(@Body() createSellerDto: CreateSellerDto): Promise<Seller> {
-    //     return this.sellersService.create(createSellerDto);
-    // }
+    @Post()
+    @ApiOperation({ summary: 'Creați un nou vânzător' })
+    @ApiResponse({ status: 201, description: 'Vânzător creat', type: Seller })
+    create(@Body() createSellerDto: CreateSellerDto): Promise<Seller> {
+        return this.sellersService.create(createSellerDto);
+    }
 
     @Delete(':id')
     @ApiOperation({ summary: 'Ștergeți un vânzător după ID' })

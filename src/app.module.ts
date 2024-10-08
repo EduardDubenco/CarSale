@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-// Importați modulele dvs. aici, de exemplu: SellersModule, ClientsModule, etc.
 
 @Module({
   imports: [
@@ -12,13 +11,12 @@ import { ConfigModule } from '@nestjs/config';
       type: 'postgres',
       host: process.env.DATABASE_HOST || 'localhost',
       port: parseInt(process.env.DATABASE_PORT, 10) || 5432,
-      username: process.env.DATABASE_USER || 'postgres',
-      password: process.env.DATABASE_PASSWORD || 'postgres',
-      database: process.env.DATABASE_NAME || 'car_sale',
+      username: process.env.DATABASE_USER || 'test_user',
+      password: process.env.DATABASE_PASSWORD || 'test_pass',
+      database: process.env.DATABASE_NAME || 'test_db',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // Dezactivați în producție
+      synchronize: true,
     }),
-    // Adăugați modulele dvs. aici
   ],
   controllers: [],
   providers: [],
