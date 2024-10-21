@@ -54,5 +54,5 @@ volumes:
   pgadmin-data:
 
 networks:
-  my-node-app:
+  car-sales-app:
     driver: bridge

@@ -3,38 +3,48 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { Client } from '../clients/client.entity';
+import { Car } from '../cars/car.entity';
 
-export enum UserRole {
-  USER = 'user',
-  ADMIN = 'admin',
-  MODERATOR = 'moderator',
-}
-
-@Entity('sellers')
-export class Seller {
+@Entity('orders')
+export class Order {
+  @ApiProperty({ example: 1, description: 'ID-ul comenzii' })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true, length: 255 })
-  user_name: string;
+  @ApiProperty({ description: 'Referință la clientul care a plasat comanda' })
+  @ManyToOne(() => Client)
+  client: Client;
 
-  @Column({ length: 72 })
-  password_hash: string;
+  @ApiProperty({ description: 'Referință la mașina comandată' })
+  @ManyToOne(() => Car)
+  car: Car;
 
-  @Column({ type: 'char', length: 16 })
-  salt: string;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
-
-  @Column({ unique: true, length: 255 })
-  email: string;
-
-  @Column({
-    type: 'enum',
-    enum: UserRole,
-    default: UserRole.USER,
+  @ApiProperty({
+    example: 'pending',
+    description: 'Statusul comenzii',
   })
-  role: UserRole;
+  @Column({ default: 'pending' })
+  orderStatus: string;
+
+  @ApiProperty({
+    example: 50000.00,
+    description: 'Prețul total al comenzii',
+  })
+  @Column('decimal')
+  totalPrice: number;
+
+  @ApiProperty({
+    example: '2024-01-01T00:00:00Z',
+    description: 'Data plasării comenzii',
+  })
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
 }
