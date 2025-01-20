@@ -1,8 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('detailing')
@@ -11,15 +7,24 @@ export class Detailing {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 'Exterior Cleaning', description: 'Descrierea serviciului de detailing' })
+  @ApiProperty({
+    example: 'Exterior Cleaning',
+    description: 'Descrierea serviciului de detailing',
+  })
   @Column('text')
   detailDescription: string;
 
-  @ApiProperty({ example: 'Car Mat Set', description: 'Descrierea accesoriilor incluse' })
+  @ApiProperty({
+    example: 'Car Mat Set',
+    description: 'Descrierea accesoriilor incluse',
+  })
   @Column('text')
   accessoryDescription: string;
 
-  @ApiProperty({ example: 150.00, description: 'Prețul pentru serviciile de detailing și accesorii' })
+  @ApiProperty({
+    example: 150.0,
+    description: 'Prețul pentru serviciile de detailing și accesorii',
+  })
   @Column('decimal')
   price: number;
 }

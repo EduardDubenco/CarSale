@@ -13,6 +13,6 @@ export class CreateOrderDto {
   })
   orderStatus: string;
 
-  @ApiProperty({ example: 50000.00, description: 'Prețul total al comenzii' })
+  @ApiProperty({ example: 50000.0, description: 'Prețul total al comenzii' })
   totalPrice: number;
 }

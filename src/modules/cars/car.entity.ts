@@ -2,8 +2,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  CreateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { CarModel } from '../car-models/car-model.entity';
 
 @Entity('cars')
 export class Car {
@@ -11,35 +15,37 @@ export class Car {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 'Model S', description: 'Modelul mașinii' })
+  @ApiProperty({ example: 1, description: 'ID-ul modelului mașinii' })
   @Column()
-  model: string;
+  carModelId: number;
 
-  @ApiProperty({ example: 'Tesla', description: 'Marca mașinii' })
-  @Column()
-  brand: string;
+  @ManyToOne(() => CarModel, (carModel) => carModel.cars)
+  @JoinColumn({ name: 'carModelId' })
+  carModel: CarModel;
 
-  @ApiProperty({ example: 2020, description: 'Anul de fabricație' })
-  @Column()
+  @ApiProperty({ example: 2020, description: 'Anul fabricației' })
+  @Column('int')
   year: number;
 
-  @ApiProperty({ example: 10000, description: 'Kilometrajul mașinii' })
-  @Column()
+  @ApiProperty({ example: 15000, description: 'Chilometrajul automobilului' })
+  @Column('int')
   mileage: number;
 
-  @ApiProperty({ example: 'Black', description: 'Culoarea mașinii' })
-  @Column()
-  color: string;
-
-  @ApiProperty({ example: 50000.00, description: 'Prețul mașinii' })
-  @Column('decimal')
+  @ApiProperty({ example: 15000, description: 'Prețul mașinii în euro' })
+  @Column('decimal', { precision: 10, scale: 2 })
   price: number;
 
-  @ApiProperty({ example: 'A perfect electric car.', description: 'Descrierea mașinii' })
+  @ApiProperty({
+    example: 'Mașina în stare perfectă, fără accidente.',
+    description: 'Descrierea mașinii',
+  })
   @Column('text')
   description: string;
 
-  @ApiProperty({ example: 'url-to-image', description: 'URL-ul imaginii mașinii' })
-  @Column({ nullable: true })
-  imageUrl?: string;
+  @ApiProperty({
+    example: '2025-01-20T12:34:56Z',
+    description: 'Data adăugării în baza de date',
+  })
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 }

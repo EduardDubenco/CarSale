@@ -1,6 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
+import { SellersModule } from './modules/sellers/sellers.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { DetailingModule } from './modules/detailing/detailing.module';
+import { CarsModule } from './modules/cars/cars.module';
+import { CarModelsModule } from './modules/car-models/car-models.module';
+import { CarBrandsModule } from './modules/car-brands/car-brands.module';
 
 @Module({
   imports: [
@@ -17,6 +23,12 @@ import { ConfigModule } from '@nestjs/config';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),
+    SellersModule,
+    OrdersModule,
+    DetailingModule,
+    CarsModule,
+    CarModelsModule,
+    CarBrandsModule
   ],
   controllers: [],
   providers: [],

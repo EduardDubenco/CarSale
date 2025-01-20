@@ -2,39 +2,32 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { Car } from '../cars/car.entity';
+import { CarBrand } from '../car-brands/car-brand.entity';
 
-export enum UserRole {
-  USER = 'user',
-  ADMIN = 'admin',
-  MODERATOR = 'moderator',
-}
-
-@Entity('sellers')
-export class Seller {
+@Entity('car_models')
+export class CarModel {
+  @ApiProperty({ example: 1, description: 'ID-ul modelului' })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true, length: 255 })
-  user_name: string;
+  @ApiProperty({ example: 'Model S', description: 'Numele modelului' })
+  @Column({ length: 50 })
+  name: string;
 
-  @Column({ length: 72 })
-  password_hash: string;
+  @ApiProperty({ example: 1, description: 'ID-ul brandului' })
+  @Column()
+  brandId: number;
 
-  @Column({ type: 'char', length: 16 })
-  salt: string;
+  @ManyToOne(() => CarBrand, (brand) => brand.models)
+  @JoinColumn({ name: 'brandId' })
+  brand: CarBrand;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
-
-  @Column({ unique: true, length: 255 })
-  email: string;
-
-  @Column({
-    type: 'enum',
-    enum: UserRole,
-    default: UserRole.USER,
-  })
-  role: UserRole;
+  @OneToMany(() => Car, (car) => car.carModel)
+  cars: Car[];
 }

@@ -31,7 +31,7 @@ export class Order {
   orderStatus: string;
 
   @ApiProperty({
-    example: 50000.00,
+    example: 50000.0,
     description: 'Prețul total al comenzii',
   })
   @Column('decimal')

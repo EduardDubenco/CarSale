@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Car } from './car.entity';
+import { CreateCarDto } from './dto/create-car.dto';
 
 @Injectable()
 export class CarsService {
@@ -11,19 +12,39 @@ export class CarsService {
   ) {}
 
   findAll(): Promise<Car[]> {
-    return this.carsRepository.find();
+    return this.carsRepository.find({
+      relations: ['carModel', 'carModel.brand']
+    });
   }
 
-  findOne(id: number): Promise<Car> {
-    return this.carsRepository.findOneBy({ id });
+  async findOne(id: number): Promise<Car> {
+    const car = await this.carsRepository.findOne({
+      where: { id },
+      relations: ['carModel', 'carModel.brand']
+    });
+
+    if (!car) {
+      throw new NotFoundException(`Car with ID ${id} not found`);
+    }
+
+    return car;
+  }
+
+  async create(createCarDto: CreateCarDto): Promise<Car> {
+    const car = this.carsRepository.create(createCarDto);
+    return this.carsRepository.save(car);
+  }
+
+  async update(id: number, updateCarDto: Partial<CreateCarDto>): Promise<Car> {
+    const car = await this.findOne(id);
+    this.carsRepository.merge(car, updateCarDto);
+    return this.carsRepository.save(car);
   }
 
   async remove(id: number): Promise<void> {
-    await this.carsRepository.delete(id);
-  }
-
-  async create(car: Partial<Car>): Promise<Car> {
-    const newCar = this.carsRepository.create(car);
-    return this.carsRepository.save(newCar);
+    const result = await this.carsRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Car with ID ${id} not found`);
+    }
   }
 }

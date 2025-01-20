@@ -31,7 +31,7 @@ export class Seller {
     example: 'salt1234567890',
     description: 'Salt-ul utilizat pentru hash-ul parolei',
   })
-  @Column({ length: 16 })
+  @Column({ length: 64 })
   salt: string;
 
   @ApiProperty({

@@ -1,27 +1,36 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { IsNotEmpty, IsNumber, IsString, Min, IsPositive } from 'class-validator';
 
 export class CreateCarDto {
-  @ApiProperty({ example: 'Model S', description: 'Modelul mașinii' })
-  model: string;
-
-  @ApiProperty({ example: 'Tesla', description: 'Marca mașinii' })
-  brand: string;
+  @ApiProperty({ example: 1, description: 'ID-ul modelului mașinii' })
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
+  carModelId: number;
 
   @ApiProperty({ example: 2020, description: 'Anul de fabricație' })
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(1900)
   year: number;
 
   @ApiProperty({ example: 10000, description: 'Kilometrajul mașinii' })
+  @IsNotEmpty()
+  @IsNumber()
+  @Min(0)
   mileage: number;
 
-  @ApiProperty({ example: 'Black', description: 'Culoarea mașinii' })
-  color: string;
-
-  @ApiProperty({ example: 50000.00, description: 'Prețul mașinii' })
+  @ApiProperty({ example: 50000.0, description: 'Prețul mașinii' })
+  @IsNotEmpty()
+  @IsNumber()
+  @IsPositive()
   price: number;
 
-  @ApiProperty({ example: 'A perfect electric car.', description: 'Descrierea mașinii' })
+  @ApiProperty({
+    example: 'Mașină în stare perfectă',
+    description: 'Descrierea mașinii',
+  })
+  @IsNotEmpty()
+  @IsString()
   description: string;
-
-  @ApiProperty({ example: 'url-to-image', description: 'URL-ul imaginii mașinii', required: false })
-  imageUrl?: string;
 }

@@ -4,7 +4,7 @@ import { Detailing } from './detailing.entity';
 import { CreateDetailingDto } from './dto/create-detailing.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-@ApiTags('detailing')
+@ApiTags('Detailing')
 @Controller('detailing')
 export class DetailingController {
   constructor(private readonly detailingService: DetailingService) {}
@@ -22,14 +22,22 @@ export class DetailingController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Obțineți un serviciu de detailing după ID' })
-  @ApiResponse({ status: 200, description: 'Detalii serviciu detailing', type: Detailing })
+  @ApiResponse({
+    status: 200,
+    description: 'Detalii serviciu detailing',
+    type: Detailing,
+  })
   findOne(@Param('id') id: number): Promise<Detailing> {
     return this.detailingService.findOne(id);
   }
 
   @Post()
   @ApiOperation({ summary: 'Creați un nou serviciu de detailing' })
-  @ApiResponse({ status: 201, description: 'Serviciu de detailing creat', type: Detailing })
+  @ApiResponse({
+    status: 201,
+    description: 'Serviciu de detailing creat',
+    type: Detailing,
+  })
   create(@Body() createDetailingDto: CreateDetailingDto): Promise<Detailing> {
     return this.detailingService.create(createDetailingDto);
   }

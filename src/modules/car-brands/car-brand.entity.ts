@@ -1,40 +1,17 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { CarModel } from '../car-models/car-model.entity';
 
-export enum UserRole {
-  USER = 'user',
-  ADMIN = 'admin',
-  MODERATOR = 'moderator',
-}
-
-@Entity('sellers')
-export class Seller {
+@Entity('car_brands')
+export class CarBrand {
+  @ApiProperty({ example: 1, description: 'ID-ul brandului' })
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true, length: 255 })
-  user_name: string;
+  @ApiProperty({ example: 'Tesla', description: 'Numele brandului' })
+  @Column({ length: 50, unique: true })
+  name: string;
 
-  @Column({ length: 72 })
-  password_hash: string;
-
-  @Column({ type: 'char', length: 16 })
-  salt: string;
-
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
-
-  @Column({ unique: true, length: 255 })
-  email: string;
-
-  @Column({
-    type: 'enum',
-    enum: UserRole,
-    default: UserRole.USER,
-  })
-  role: UserRole;
+  @OneToMany(() => CarModel, (model) => model.brand)
+  models: CarModel[];
 }
