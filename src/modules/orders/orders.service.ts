@@ -9,6 +9,7 @@ import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { ClientsService } from '../clients/clients.service';
 import { CarsService } from '../cars/cars.service';
+import { AccessoriesService } from '../accesories/accessories.service';
 
 @Injectable()
 export class OrdersService {
@@ -17,55 +18,62 @@ export class OrdersService {
     private ordersRepository: Repository<Order>,
     private clientsService: ClientsService,
     private carsService: CarsService,
+    private accessoriesService: AccessoriesService,
   ) {}
 
   async findAll(): Promise<Order[]> {
     return this.ordersRepository.find({
-      relations: ['client', 'car'],
+      relations: ['client', 'car', 'accessories'],
     });
   }
 
   async findOne(id: number): Promise<Order> {
     const order = await this.ordersRepository.findOne({
       where: { id },
-      relations: ['client', 'car'],
+      relations: ['client', 'car', 'accessories'],
     });
 
     if (!order) {
-      throw new NotFoundException(`Order with ID ${id} not found`);
+      throw new NotFoundException(`Comanda cu ID-ul ${id} nu a fost găsită`);
     }
 
     return order;
   }
 
   async create(createOrderDto: CreateOrderDto): Promise<Order> {
-    // Găsim sau creăm clientul
     const client = await this.clientsService.findOrCreateByDetails(
       createOrderDto.client,
     );
 
-    // Verificăm dacă mașina există și nu este vândută
     const car = await this.carsService.findOne(createOrderDto.carId);
     if (!car) {
       throw new NotFoundException(
-        `Car with ID ${createOrderDto.carId} not found`,
+        `Mașina cu ID-ul ${createOrderDto.carId} nu a fost găsită`,
       );
     }
     if (car.isSold) {
       throw new BadRequestException(
-        `Car with ID ${createOrderDto.carId} is already sold`,
+        `Mașina cu ID-ul ${createOrderDto.carId} este deja vândută`,
       );
     }
 
-    // Creăm comanda
+    const accessories = await this.accessoriesService.findByIds(createOrderDto.accessoryIds);
+    if (accessories.length !== createOrderDto.accessoryIds.length) {
+      throw new NotFoundException('Unele accesorii nu au fost găsite');
+    }
+
+    const accessoriesPrice = accessories.reduce((sum, acc) => sum + Number(acc.price), 0);
+
     const order = this.ordersRepository.create({
       ...createOrderDto,
       clientId: client.id,
       client,
       car,
+      accessories,
+      accessoriesPrice,
+      totalPrice: Number(createOrderDto.totalPrice) + accessoriesPrice,
     });
 
-    // Marchăm mașina ca fiind vândută
     await this.carsService.update(car.id, { isSold: true });
 
     return this.ordersRepository.save(order);
@@ -74,12 +82,10 @@ export class OrdersService {
   async remove(id: number): Promise<void> {
     const order = await this.findOne(id);
     if (!order) {
-      throw new NotFoundException(`Order with ID ${id} not found`);
+      throw new NotFoundException(`Comanda cu ID-ul ${id} nu a fost găsită`);
     }
 
-    // Eliberează mașina pentru a putea fi vândută din nou
     await this.carsService.update(order.carId, { isSold: false });
-
     await this.ordersRepository.delete(id);
   }
 }

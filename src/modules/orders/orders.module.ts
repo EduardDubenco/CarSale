@@ -5,9 +5,15 @@ import { OrdersController } from './orders.controller';
 import { Order } from './order.entity';
 import { ClientsModule } from '../clients/clients.module';
 import { CarsModule } from '../cars/cars.module';
+import { AccessoriesModule } from '../accesories/accessories.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order]), ClientsModule, CarsModule ],
+  imports: [
+    TypeOrmModule.forFeature([Order]),
+    ClientsModule,
+    CarsModule,
+    AccessoriesModule
+  ],
   providers: [OrdersService],
   controllers: [OrdersController],
   exports: [OrdersService],

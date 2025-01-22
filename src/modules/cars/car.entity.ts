@@ -5,7 +5,8 @@ import {
   CreateDateColumn,
   ManyToOne,
   OneToOne,
-  JoinColumn, OneToMany,
+  JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { CarModel } from '../car-models/car-model.entity';
@@ -62,6 +63,8 @@ export class Car {
   @OneToOne(() => Order, (order) => order.car)
   order: Order;
 
-  @OneToMany(() => CarAttribute, (attribute) => attribute.car, { cascade: true })
+  @OneToMany(() => CarAttribute, (attribute) => attribute.car, {
+    cascade: true,
+  })
   attributes: CarAttribute[];
 }
