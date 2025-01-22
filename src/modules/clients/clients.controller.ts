@@ -10,10 +10,10 @@ export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Obțineți toți clienții' })
+  @ApiOperation({ summary: 'Obtineti toti clientii' })
   @ApiResponse({
     status: 200,
-    description: 'Lista de clienți',
+    description: 'Lista de clienti',
     type: [Client],
   })
   findAll(): Promise<Client[]> {
@@ -21,14 +21,14 @@ export class ClientsController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obțineți un client după ID' })
+  @ApiOperation({ summary: 'Obtineti un client dupa ID' })
   @ApiResponse({ status: 200, description: 'Detalii client', type: Client })
   findOne(@Param('id') id: number): Promise<Client> {
     return this.clientsService.findOne(id);
   }
 
   @Post()
-  @ApiOperation({ summary: 'Creați un client nou' })
+  @ApiOperation({ summary: 'Creati un client nou' })
   @ApiResponse({ status: 201, description: 'Client creat', type: Client })
   create(@Body() createClientDto: CreateClientDto): Promise<Client> {
     return this.clientsService.create(createClientDto);

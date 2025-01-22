@@ -6,7 +6,7 @@ import {
   IsPositive,
   ValidateNested,
   IsArray,
-  ArrayMinSize
+  ArrayMinSize,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateClientDto } from '../../clients/dto/create-client.dto';
@@ -14,7 +14,7 @@ import { CreateClientDto } from '../../clients/dto/create-client.dto';
 export class CreateOrderDto {
   @ApiProperty({
     type: () => CreateClientDto,
-    description: 'Datele clientului care plasează comanda'
+    description: 'Datele clientului care plaseaza comanda',
   })
   @ValidateNested()
   @Type(() => CreateClientDto)
@@ -22,7 +22,7 @@ export class CreateOrderDto {
 
   @ApiProperty({
     example: 1,
-    description: 'Identificatorul unic al mașinii selectate pentru comandă'
+    description: 'Identificatorul unic al mașinii selectate pentru comanda',
   })
   @IsNotEmpty()
   @IsNumber()
@@ -30,17 +30,17 @@ export class CreateOrderDto {
   carId: number;
 
   @ApiProperty({
-    example: 'în așteptare',
+    example: 'in asteptare',
     description: 'Starea comenzii',
-    enum: ['în așteptare', 'finalizată', 'anulată']
+    enum: ['in asteptare', 'finalizata', 'anulata'],
   })
   @IsNotEmpty()
-  @IsEnum(['în așteptare', 'finalizată', 'anulată'])
+  @IsEnum(['in asteptare', 'finalizata', 'anulata'])
   orderStatus: string;
 
   @ApiProperty({
-    example: 50000.00,
-    description: 'Prețul de bază al comenzii, fără accesorii'
+    example: 50000.0,
+    description: 'Pretul de baza al comenzii, fara accesorii',
   })
   @IsNotEmpty()
   @IsNumber()
@@ -51,7 +51,7 @@ export class CreateOrderDto {
     example: [1, 2, 3],
     description: 'Lista de identificatori pentru accesoriile selectate',
     type: [Number],
-    isArray: true
+    isArray: true,
   })
   @IsArray()
   @IsNumber({}, { each: true })

@@ -12,7 +12,7 @@ import { AccessoriesModule } from '../accesories/accessories.module';
     TypeOrmModule.forFeature([Order]),
     ClientsModule,
     CarsModule,
-    AccessoriesModule
+    AccessoriesModule,
   ],
   providers: [OrdersService],
   controllers: [OrdersController],

@@ -34,7 +34,7 @@ export class OrdersService {
     });
 
     if (!order) {
-      throw new NotFoundException(`Comanda cu ID-ul ${id} nu a fost găsită`);
+      throw new NotFoundException(`Comanda cu ID-ul ${id} nu a fost gasită`);
     }
 
     return order;
@@ -48,21 +48,26 @@ export class OrdersService {
     const car = await this.carsService.findOne(createOrderDto.carId);
     if (!car) {
       throw new NotFoundException(
-        `Mașina cu ID-ul ${createOrderDto.carId} nu a fost găsită`,
+        `Masina cu ID-ul ${createOrderDto.carId} nu a fost gasita`,
       );
     }
     if (car.isSold) {
       throw new BadRequestException(
-        `Mașina cu ID-ul ${createOrderDto.carId} este deja vândută`,
+        `Masina cu ID-ul ${createOrderDto.carId} este deja vanduta`,
       );
     }
 
-    const accessories = await this.accessoriesService.findByIds(createOrderDto.accessoryIds);
+    const accessories = await this.accessoriesService.findByIds(
+      createOrderDto.accessoryIds,
+    );
     if (accessories.length !== createOrderDto.accessoryIds.length) {
-      throw new NotFoundException('Unele accesorii nu au fost găsite');
+      throw new NotFoundException('Unele accesorii nu au fost gasite');
     }
 
-    const accessoriesPrice = accessories.reduce((sum, acc) => sum + Number(acc.price), 0);
+    const accessoriesPrice = accessories.reduce(
+      (sum, acc) => sum + Number(acc.price),
+      0,
+    );
 
     const order = this.ordersRepository.create({
       ...createOrderDto,
@@ -82,7 +87,7 @@ export class OrdersService {
   async remove(id: number): Promise<void> {
     const order = await this.findOne(id);
     if (!order) {
-      throw new NotFoundException(`Comanda cu ID-ul ${id} nu a fost găsită`);
+      throw new NotFoundException(`Comanda cu ID-ul ${id} nu a fost gasita`);
     }
 
     await this.carsService.update(order.carId, { isSold: false });

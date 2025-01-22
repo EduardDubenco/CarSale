@@ -13,7 +13,7 @@ export class OrdersController {
   @ApiOperation({ summary: 'Listează toate comenzile' })
   @ApiResponse({
     status: 200,
-    description: 'Lista completă de comenzi',
+    description: 'Lista completa de comenzi',
     type: [Order],
   })
   findAll(): Promise<Order[]> {
@@ -21,32 +21,32 @@ export class OrdersController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Găsește o comandă după ID' })
+  @ApiOperation({ summary: 'Gaseste o comanda dupa ID' })
   @ApiResponse({
     status: 200,
-    description: 'Detaliile comenzii căutate',
-    type: Order
+    description: 'Detaliile comenzii cautate',
+    type: Order,
   })
   findOne(@Param('id') id: number): Promise<Order> {
     return this.ordersService.findOne(id);
   }
 
   @Post()
-  @ApiOperation({ summary: 'Înregistrează o comandă nouă' })
+  @ApiOperation({ summary: 'Inregistreaza o comandă noua' })
   @ApiResponse({
     status: 201,
-    description: 'Comanda a fost creată cu succes',
-    type: Order
+    description: 'Comanda a fost stearsa cu succes',
+    type: Order,
   })
   create(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
     return this.ordersService.create(createOrderDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Șterge o comandă după ID' })
+  @ApiOperation({ summary: 'Sterge o comanda dupa ID' })
   @ApiResponse({
     status: 200,
-    description: 'Comanda a fost ștearsă cu succes'
+    description: 'Comanda a fost stearsa cu succes',
   })
   remove(@Param('id') id: number): Promise<void> {
     return this.ordersService.remove(id);

@@ -3,26 +3,28 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
-import { UserRole } from './user-role.enum';
+import { UserRole } from '../enums/user-role.enum';
+import { SellerLogin } from './seller-login.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('sellers')
 export class Seller {
-  @ApiProperty({ example: 1, description: 'ID-ul vânzătorului' })
+  @ApiProperty({ example: 1, description: 'ID-ul vanzatorului' })
   @PrimaryGeneratedColumn()
   id: number;
 
   @ApiProperty({
     example: 'john_doe',
-    description: 'Numele de utilizator al vânzătorului',
+    description: 'Numele de utilizator al vanzatorului',
   })
   @Column({ name: 'user_name', unique: true })
   userName: string;
 
   @ApiProperty({
     example: 'hashed_password',
-    description: 'Hash-ul parolei vânzătorului',
+    description: 'Hash-ul parolei vanzatorului',
   })
   @Column({ name: 'password_hash' })
   passwordHash: string;
@@ -36,7 +38,7 @@ export class Seller {
 
   @ApiProperty({
     example: '2024-01-01T00:00:00Z',
-    description: 'Data creării contului',
+    description: 'Data crearii contului',
   })
   @CreateDateColumn({
     name: 'created_at',
@@ -47,7 +49,7 @@ export class Seller {
 
   @ApiProperty({
     example: 'john@example.com',
-    description: 'Email-ul vânzătorului',
+    description: 'Email-ul vanzatorului',
   })
   @Column({ unique: true })
   email: string;
@@ -63,4 +65,7 @@ export class Seller {
     default: UserRole.USER,
   })
   role: UserRole;
+
+  @OneToMany(() => SellerLogin, (login) => login.seller)
+  logins: SellerLogin[];
 }

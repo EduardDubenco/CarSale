@@ -16,7 +16,7 @@ export class Client {
   @Column({ name: 'last_name', length: 20 })
   lastName: string;
 
-  @ApiProperty({ example: '+40721234567', description: 'Numărul de telefon' })
+  @ApiProperty({ example: '+37379834303', description: 'Numarul de telefon' })
   @Column({ name: 'phone_number', length: 20 })
   phoneNumber: string;
 

@@ -9,6 +9,7 @@ import { CarModelsModule } from './modules/car-models/car-models.module';
 import { CarBrandsModule } from './modules/car-brands/car-brands.module';
 import { ClientsModule } from './modules/clients/clients.module';
 import { CarAttributesModule } from './modules/car-atributes/car-attributes.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { CarAttributesModule } from './modules/car-atributes/car-attributes.modu
     CarBrandsModule,
     ClientsModule,
     CarAttributesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

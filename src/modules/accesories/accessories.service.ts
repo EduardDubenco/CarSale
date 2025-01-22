@@ -16,9 +16,11 @@ export class AccessoriesService {
   }
 
   async findOne(id: number): Promise<Accessory> {
-    const accessory = await this.accessoriesRepository.findOne({ where: { id } });
+    const accessory = await this.accessoriesRepository.findOne({
+      where: { id },
+    });
     if (!accessory) {
-      throw new NotFoundException(`Accesoriul cu ID-ul ${id} nu a fost găsit`);
+      throw new NotFoundException(`Accesoriul cu ID-ul ${id} nu a fost gasit`);
     }
     return accessory;
   }
@@ -32,7 +34,10 @@ export class AccessoriesService {
     return this.accessoriesRepository.findByIds(ids);
   }
 
-  async update(id: number, updateAccessoryDto: Partial<CreateAccessoryDto>): Promise<Accessory> {
+  async update(
+    id: number,
+    updateAccessoryDto: Partial<CreateAccessoryDto>,
+  ): Promise<Accessory> {
     const accessory = await this.findOne(id);
     const updatedAccessory = Object.assign(accessory, updateAccessoryDto);
     return this.accessoriesRepository.save(updatedAccessory);

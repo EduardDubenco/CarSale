@@ -24,7 +24,7 @@ export class ClientsService {
     });
 
     if (!client) {
-      throw new NotFoundException(`Client with ID ${id} not found`);
+      throw new NotFoundException(`Client cu ID ${id} nu a fost gasit`);
     }
 
     return client;

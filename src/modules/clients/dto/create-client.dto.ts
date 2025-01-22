@@ -12,11 +12,11 @@ export class CreateClientDto {
   @IsString()
   lastName: string;
 
-  @ApiProperty({ example: '+40721234567', description: 'Numărul de telefon' })
+  @ApiProperty({ example: '+37379834303', description: 'Numarul de telefon' })
   @IsNotEmpty()
   @IsString()
   @Matches(/^\+?[0-9]{10,}$/, {
-    message: 'Numărul de telefon trebuie să conțină cel puțin 10 cifre',
+    message: 'Numarul de telefon trebuie sa contină cel putin 10 cifre',
   })
   phoneNumber: string;
 }

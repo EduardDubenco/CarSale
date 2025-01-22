@@ -20,7 +20,9 @@ export class Order {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ description: 'Referință către clientul care a plasat comanda' })
+  @ApiProperty({
+    description: 'Referinta catre clientul care a plasat comanda',
+  })
   @ManyToOne(() => Client, (client) => client.orders)
   @JoinColumn({ name: 'clientId' })
   client: Client;
@@ -28,7 +30,7 @@ export class Order {
   @Column()
   clientId: number;
 
-  @ApiProperty({ description: 'Referință către mașina comandată' })
+  @ApiProperty({ description: 'Referinta catre masina comandata' })
   @OneToOne(() => Car)
   @JoinColumn({ name: 'carId' })
   car: Car;
@@ -36,7 +38,7 @@ export class Order {
   @Column()
   carId: number;
 
-  @ApiProperty({ description: 'Lista accesoriilor incluse în comandă' })
+  @ApiProperty({ description: 'Lista accesoriilor incluse in comanda' })
   @ManyToMany(() => Accessory)
   @JoinTable({
     name: 'order_accessories',
@@ -46,33 +48,33 @@ export class Order {
   accessories: Accessory[];
 
   @ApiProperty({
-    example: 'în așteptare',
-    description: 'Starea curentă a comenzii',
-    enum: ['în așteptare', 'finalizată', 'anulată'],
+    example: 'In asteptare',
+    description: 'Starea curenta a comenzii',
+    enum: ['In asteptare', 'finalizata', 'anulata'],
   })
   @Column({
-    default: 'în așteptare',
-    enum: ['în așteptare', 'finalizată', 'anulată'],
+    default: 'In asteptare',
+    enum: ['In asteptare', 'finalizata', 'anulata'],
   })
   orderStatus: string;
 
   @ApiProperty({
     example: 50000.0,
-    description: 'Prețul total al mașinii',
+    description: 'Pretul total al masinii',
   })
   @Column('decimal', { precision: 10, scale: 2 })
   totalPrice: number;
 
   @ApiProperty({
     example: 0.0,
-    description: 'Suma totală a accesoriilor comandate'
+    description: 'Suma totala a accesoriilor comandate',
   })
   @Column('decimal', { precision: 10, scale: 2, default: 0 })
   accessoriesPrice: number;
 
   @ApiProperty({
     example: '2024-01-01T00:00:00Z',
-    description: 'Data și ora înregistrării comenzii',
+    description: 'Data si ora inregistrarii comenzii',
   })
   @CreateDateColumn({
     name: 'created_at',

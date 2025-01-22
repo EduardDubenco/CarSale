@@ -10,7 +10,7 @@ export class DetailingController {
   constructor(private readonly detailingService: DetailingService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Obțineți toate serviciile de detailing' })
+  @ApiOperation({ summary: 'Obtineti toate serviciile de detailing' })
   @ApiResponse({
     status: 200,
     description: 'Lista de servicii de detailing',
@@ -21,7 +21,7 @@ export class DetailingController {
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obțineți un serviciu de detailing după ID' })
+  @ApiOperation({ summary: 'Obtineti un serviciu de detailing dupa ID' })
   @ApiResponse({
     status: 200,
     description: 'Detalii serviciu detailing',
@@ -32,7 +32,7 @@ export class DetailingController {
   }
 
   @Post()
-  @ApiOperation({ summary: 'Creați un nou serviciu de detailing' })
+  @ApiOperation({ summary: 'Creati un nou serviciu de detailing' })
   @ApiResponse({
     status: 201,
     description: 'Serviciu de detailing creat',
@@ -43,8 +43,8 @@ export class DetailingController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Ștergeți un serviciu de detailing după ID' })
-  @ApiResponse({ status: 200, description: 'Serviciu de detailing șters' })
+  @ApiOperation({ summary: 'Stergeti un serviciu de detailing dupa ID' })
+  @ApiResponse({ status: 200, description: 'Serviciu de detailing Sters' })
   remove(@Param('id') id: number): Promise<void> {
     return this.detailingService.remove(id);
   }

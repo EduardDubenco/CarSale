@@ -15,7 +15,7 @@ export class CreateDetailingDto {
 
   @ApiProperty({
     example: 150.0,
-    description: 'Prețul pentru serviciile de detailing și accesorii',
+    description: 'PreTul pentru serviciile de detailing si accesorii',
   })
   price: number;
 }
