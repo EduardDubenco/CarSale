@@ -7,6 +7,8 @@ import { DetailingModule } from './modules/detailing/detailing.module';
 import { CarsModule } from './modules/cars/cars.module';
 import { CarModelsModule } from './modules/car-models/car-models.module';
 import { CarBrandsModule } from './modules/car-brands/car-brands.module';
+import { ClientsModule } from './modules/clients/clients.module';
+import { CarAttributesModule } from './modules/car-atributes/car-attributes.module';
 
 @Module({
   imports: [
@@ -28,7 +30,9 @@ import { CarBrandsModule } from './modules/car-brands/car-brands.module';
     DetailingModule,
     CarsModule,
     CarModelsModule,
-    CarBrandsModule
+    CarBrandsModule,
+    ClientsModule,
+    CarAttributesModule,
   ],
   controllers: [],
   providers: [],

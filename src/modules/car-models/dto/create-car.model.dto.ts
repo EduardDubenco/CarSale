@@ -1,12 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Length, IsNumber, IsPositive } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  Length,
+  IsNumber,
+  IsPositive,
+} from 'class-validator';
 
 export class CreateCarModelDto {
   @ApiProperty({
     example: 'Corolla',
     description: 'Numele modelului',
     minLength: 2,
-    maxLength: 50
+    maxLength: 50,
   })
   @IsNotEmpty()
   @IsString()
@@ -15,7 +21,7 @@ export class CreateCarModelDto {
 
   @ApiProperty({
     example: 1,
-    description: 'ID-ul brandului'
+    description: 'ID-ul brandului',
   })
   @IsNotEmpty()
   @IsNumber()

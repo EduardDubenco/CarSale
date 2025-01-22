@@ -1,28 +1,36 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { Client } from './client.entity';
+import { CreateClientDto } from './dto/create-client.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
-@ApiTags('sellers')
-@Controller('sellers')
+@ApiTags('Clients')
+@Controller('clients')
 export class ClientsController {
-  constructor(private readonly sellersService: ClientsService) {}
+  constructor(private readonly clientsService: ClientsService) {}
 
   @Get()
-  @ApiOperation({ summary: 'Obțineți toți vânzătorii' })
+  @ApiOperation({ summary: 'Obțineți toți clienții' })
   @ApiResponse({
     status: 200,
-    description: 'Lista de vânzători',
+    description: 'Lista de clienți',
     type: [Client],
   })
   findAll(): Promise<Client[]> {
-    return this.sellersService.findAll();
+    return this.clientsService.findAll();
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Obțineți un vânzător după ID' })
-  @ApiResponse({ status: 200, description: 'Detalii vânzător', type: Client })
+  @ApiOperation({ summary: 'Obțineți un client după ID' })
+  @ApiResponse({ status: 200, description: 'Detalii client', type: Client })
   findOne(@Param('id') id: number): Promise<Client> {
-    return this.sellersService.findOne(id);
+    return this.clientsService.findOne(id);
+  }
+
+  @Post()
+  @ApiOperation({ summary: 'Creați un client nou' })
+  @ApiResponse({ status: 201, description: 'Client creat', type: Client })
+  create(@Body() createClientDto: CreateClientDto): Promise<Client> {
+    return this.clientsService.create(createClientDto);
   }
 }

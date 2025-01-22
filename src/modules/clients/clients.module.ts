@@ -10,4 +10,4 @@ import { Client } from './client.entity';
   controllers: [ClientsController],
   exports: [ClientsService],
 })
-export class SellersModule {}
+export class ClientsModule {}

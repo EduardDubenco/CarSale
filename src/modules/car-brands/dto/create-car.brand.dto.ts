@@ -6,7 +6,7 @@ export class CreateCarBrandDto {
     example: 'Toyota',
     description: 'Numele brandului',
     minLength: 2,
-    maxLength: 50
+    maxLength: 50,
   })
   @IsNotEmpty()
   @IsString()

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CarBrandsService } from './car-brands.service';
 import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { CarBrand } from './car-brand.entity';
@@ -14,7 +22,7 @@ export class CarBrandsController {
   @ApiResponse({
     status: 200,
     description: 'Lista brandurilor de masini',
-    type: [CarBrand]
+    type: [CarBrand],
   })
   findAll(): Promise<CarBrand[]> {
     return this.carBrandsService.findAll();
@@ -34,7 +42,7 @@ export class CarBrandsController {
   @ApiResponse({
     status: 201,
     description: 'Brandul a fost creat',
-    type: CarBrand
+    type: CarBrand,
   })
   create(@Body() createBrandDto: CreateCarBrandDto): Promise<CarBrand> {
     return this.carBrandsService.create(createBrandDto);
@@ -43,7 +51,11 @@ export class CarBrandsController {
   @Patch(':id')
   @ApiOperation({ summary: 'Actualizeaza un brand' })
   @ApiParam({ name: 'id', description: 'ID-ul brandului' })
-  @ApiResponse({ status: 200, description: 'Brandul a fost actualizat', type: CarBrand })
+  @ApiResponse({
+    status: 200,
+    description: 'Brandul a fost actualizat',
+    type: CarBrand,
+  })
   @ApiResponse({ status: 404, description: 'Brandul nu a fost gasit' })
   update(
     @Param('id') id: number,

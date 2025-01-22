@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Car } from './car.entity';
@@ -13,14 +17,14 @@ export class CarsService {
 
   findAll(): Promise<Car[]> {
     return this.carsRepository.find({
-      relations: ['carModel', 'carModel.brand']
+      relations: ['carModel', 'carModel.brand', 'order'],
     });
   }
 
   async findOne(id: number): Promise<Car> {
     const car = await this.carsRepository.findOne({
       where: { id },
-      relations: ['carModel', 'carModel.brand']
+      relations: ['carModel', 'carModel.brand', 'order'],
     });
 
     if (!car) {
@@ -42,9 +46,12 @@ export class CarsService {
   }
 
   async remove(id: number): Promise<void> {
-    const result = await this.carsRepository.delete(id);
-    if (result.affected === 0) {
-      throw new NotFoundException(`Car with ID ${id} not found`);
+    const car = await this.findOne(id);
+    if (car.isSold) {
+      throw new BadRequestException(
+        `Cannot delete car with ID ${id} because it is sold`,
+      );
     }
+    await this.carsRepository.delete(id);
   }
 }
